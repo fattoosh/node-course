@@ -13,7 +13,10 @@ app.use((req, res, next) => {
   var log = `${now}: ${req.method} ${req.url}`;
 
   console.log(log);
-  fs.appendFile('server.log', log + '\n');
+  fs.appendFile('server.log', log + '\n', (err) => {
+    if(err) 
+      console.log(err);
+  });
   next();
 });
 
@@ -44,6 +47,11 @@ app.get('/about', (req, res) => {
   });
 });
 
+app.get('/projects', (req, res) => {
+  res.render('projects.hbs', {
+    pageTitle: 'projects Page'
+  });
+});
 // /bad - send back json with errorMessage
 app.get('/bad', (req, res) => {
   res.send({
